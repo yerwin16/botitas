@@ -1,0 +1,233 @@
+:root {
+    --bg-color: #18191a;
+    --card-bg: #242526;
+    --text-color: #e4e6eb;
+    --text-secondary: #b0b3b8;
+    --primary-color: #2D88FF;
+    --hover-color: #3a3b3c;
+    --border-color: #3e4042;
+    --input-bg: #3a3b3c;
+    --glass-bg: #242526;
+    /* Making it solid for FB-like feel, or keeping slight transparency if desired */
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    height: 56px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: background 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+    background-color: var(--hover-color);
+    color: var(--primary-color);
+}
+
+.container {
+    max-width: 680px;
+    margin: 20px auto;
+    padding: 0 16px;
+}
+
+/* Cards */
+.glass-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+/* Auth */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    background: var(--input-bg);
+    border: none;
+    border-radius: 20px;
+    /* Rounded pill shape */
+    color: var(--text-color);
+    font-size: 15px;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    background: #4e4f50;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #1a6ed8;
+}
+
+.btn-secondary {
+    background: #42b72a;
+    /* Green for secondary actions like new account */
+}
+
+/* Posts */
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    background-color: #333;
+}
+
+.post-info h4 {
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.post-info small {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.post-content {
+    font-size: 15px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.post-image {
+    width: calc(100% + 32px);
+    /* Break out of padding */
+    margin-left: -16px;
+    margin-right: -16px;
+    max-height: 500px;
+    object-fit: cover;
+    margin-top: 8px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Comments */
+.comments-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.comment {
+    display: flex;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.comment-bubble {
+    background: var(--input-bg);
+    padding: 8px 12px;
+    border-radius: 18px;
+    margin-left: 8px;
+    flex: 1;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Profile */
+.cover-photo {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    margin-bottom: -130px;
+    /* Overlap */
+}
+
+.profile-avatar-large {
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    border: 4px solid var(--card-bg);
+    object-fit: cover;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+}
+
+.profile-header {
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 0;
+    /* Override */
+}
+
+.hidden {
+    display: none;
+}

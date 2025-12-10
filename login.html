@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Social Network</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        // Pre-check if already logged in
+        fetch('api/auth/session.php')
+            .then(res => res.json())
+            .then(data => {
+                if(data.logged_in) window.location.href = 'index.html';
+            });
+    </script>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-box glass-card" id="login-form">
+            <h2 style="text-align: center; margin-bottom: 20px;">Iniciar Sesión</h2>
+            <form id="form-login">
+                <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                <input type="password" id="login-password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+            </form>
+            <span class="toggle-link" onclick="toggleAuth('register')">¿No tienes cuenta? Regístrate</span>
+        </div>
+
+        <div class="auth-box glass-card hidden" id="register-form">
+            <h2 style="text-align: center; margin-bottom: 20px;">Crear Cuenta</h2>
+            <form id="form-register">
+                <input type="text" id="reg-name" placeholder="Nombre completo" required>
+                <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                <input type="password" id="reg-password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <span class="toggle-link" onclick="toggleAuth('login')">¿Ya tienes cuenta? Inicia sesión</span>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        function toggleAuth(view) {
+            if(view === 'register') {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-form').classList.remove('hidden');
+            } else {
+                document.getElementById('register-form').classList.add('hidden');
+                document.getElementById('login-form').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Social Network</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav>
+        <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">MySocial</div>
+        <div>
+            <a href="index.html">Inicio</a>
+            <a href="profile.html" style="color: var(--primary-color);">Mi Perfil</a>
+            <a href="#" onclick="logout()">Salir</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Profile Header -->
+        <div class="glass-card profile-header">
+            <img src="default_cover.png" class="cover-photo" id="cover-img">
+            <img src="default_profile.png" class="profile-avatar-large" id="profile-img">
+            
+            <h2 id="display-name">Cargando...</h2>
+            <p id="display-desc" style="color: #aaa; margin-top: 5px;"></p>
+            
+            <button onclick="toggleEdit()" class="btn-secondary" style="width: auto; margin-top: 15px;">Editar Perfil</button>
+        </div>
+
+        <!-- Edit Profile Modal -->
+         <div id="edit-modal" class="modal hidden">
+            <div class="modal-content glass-card">
+                <span onclick="toggleEdit()" class="close-modal">&times;</span>
+                <h3 style="margin-bottom: 20px; text-align: center;">Editar Perfil</h3>
+                <form id="form-update-profile">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-secondary)">Nombre</label>
+                        <input type="text" id="edit-name" style="margin:0;">
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-secondary)">Descripción</label>
+                        <textarea id="edit-desc" rows="3" style="margin:0;"></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-secondary)">Foto de Perfil</label>
+                        <input type="file" id="edit-pic-file" accept="image/*" style="border-radius: 4px;">
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; color:var(--text-secondary)">Foto de Portada</label>
+                        <input type="file" id="edit-cover-file" accept="image/*" style="border-radius: 4px;">
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" onclick="toggleEdit()" class="btn-secondary" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-color);">Cancelar</button>
+                        <button type="submit" style="margin-top:0;">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Create Post Section -->
+        <div class="glass-card post-card">
+            <h3>Crear Publicación</h3>
+            <form id="publish-form">
+                <textarea id="post-content" placeholder="¿Qué estás pensando?" rows="3" required></textarea>
+                <div style="margin-top:10px;">
+                    <label style="cursor:pointer; color:var(--primary-color);">
+                        📷 Agregar foto
+                        <input type="file" id="post-image-file" accept="image/*" style="display:none">
+                    </label>
+                    <span id="file-name" style="margin-left:10px; font-size:0.8em;"></span>
+                </div>
+                <button type="submit">Publicar</button>
+            </form>
+        </div>
+
+        <!-- User Posts Feed -->
+        <h3 style="margin:20px 0;">Mis Publicaciones</h3>
+        <div id="feed-container"></div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        let currentUser = null;
+        window.currentProfileId = null;
+
+        document.getElementById('post-image-file').addEventListener('change', function() {
+            document.getElementById('file-name').textContent = this.files[0] ? this.files[0].name : '';
+        });
+
+        checkSession().then(user => {
+            if(!user) { window.location.href = 'login.html'; return; }
+            currentUser = user;
+            window.currentProfileId = user.id;
+            renderHeader(user);
+            loadPosts(user.id);
+        });
+
+        function renderHeader(user) {
+            document.getElementById('display-name').textContent = user.nombre;
+            document.getElementById('display-desc').textContent = user.descripcion || 'Sin descripción';
+            if(user.foto_perfil) document.getElementById('profile-img').src = user.foto_perfil;
+            if(user.foto_portada) document.getElementById('cover-img').src = user.foto_portada; // Fixed ID reference
+
+            document.getElementById('edit-name').value = user.nombre;
+            document.getElementById('edit-desc').value = user.descripcion || '';
+        }
+
+        async function logout() {
+            await apiRequest("auth/logout.php");
+            window.location.href = "login.html";
+        }
+
+        function toggleEdit() {
+            document.getElementById('edit-modal').classList.toggle('hidden');
+        }
+
+        document.getElementById('form-update-profile').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('nombre', document.getElementById('edit-name').value);
+            formData.append('descripcion', document.getElementById('edit-desc').value);
+            
+            const pic = document.getElementById('edit-pic-file').files[0];
+            if(pic) formData.append('foto_perfil', pic);
+            
+            const cover = document.getElementById('edit-cover-file').files[0];
+            if(cover) formData.append('foto_portada', cover);
+
+            const res = await apiRequest("user/update.php", "POST", formData, true);
+            alert(res.message);
+            if(res.message.includes("actualizado")) window.location.reload();
+        });
+    </script>
+</body>
+</html>
