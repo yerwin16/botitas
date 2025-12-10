@@ -1,7 +1,7 @@
 <?php
 /**
  * Database Connection Class
- * Handles PDO connection to MySQL database.
+ * Handles PDO connections to the database.
  */
 class Database
 {
