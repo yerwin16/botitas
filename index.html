@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Social Network</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
     <nav>
         <div style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">MySocial</div>
@@ -21,11 +23,16 @@
         <div class="glass-card post-card">
             <form id="publish-form">
                 <div style="display:flex; align-items:center;">
-                    <img src="assets/img/default_avatar.png" id="current-user-avatar" class="user-avatar" style="width:32px; height:32px;">
-                    <input type="text" id="post-content" placeholder="¿Qué estás pensando, hoy?" style="border-radius:20px; border:none; background:#3a3b3c; padding:10px; width:100%; color:white;" required>
+                    <img src="assets/img/default_avatar.png" id="current-user-avatar" class="user-avatar"
+                        style="width:32px; height:32px;">
+                    <input type="text" id="post-content" placeholder="¿Qué estás pensando, hoy?"
+                        style="border-radius:20px; border:none; background:#3a3b3c; padding:10px; width:100%; color:white;"
+                        required>
                 </div>
-                <div style="margin-top:10px; border-top:1px solid var(--border-color); padding-top:10px; display:flex; justify-content:space-between;">
-                    <label style="cursor:pointer; color:var(--text-secondary); display:flex; align-items:center; gap:5px;">
+                <div
+                    style="margin-top:10px; border-top:1px solid var(--border-color); padding-top:10px; display:flex; justify-content:space-between;">
+                    <label
+                        style="cursor:pointer; color:var(--text-secondary); display:flex; align-items:center; gap:5px;">
                         <span>📷 Foto/Video</span>
                         <input type="file" id="post-image-file" accept="image/*" style="display:none">
                     </label>
@@ -41,16 +48,19 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2024 Social Network. All rights reserved.</p>
+    </footer>
     <script src="assets/js/app.js"></script>
     <script>
-        document.getElementById('post-image-file').addEventListener('change', function() {
+        document.getElementById('post-image-file').addEventListener('change', function () {
             document.getElementById('file-name').textContent = this.files[0] ? this.files[0].name : '';
         });
 
         // Check session
         checkSession().then(user => {
-            if(!user) window.location.href = 'login.html';
-            if(user.foto_perfil) document.getElementById('current-user-avatar').src = user.foto_perfil;
+            if (!user) window.location.href = 'login.html';
+            if (user.foto_perfil) document.getElementById('current-user-avatar').src = user.foto_perfil;
             loadPosts();
             setInterval(() => loadPosts(), 5000); // Polling
         });
@@ -61,4 +71,5 @@
         }
     </script>
 </body>
+
 </html>
