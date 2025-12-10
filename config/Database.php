@@ -1,4 +1,8 @@
 <?php
+/**
+ * Database Connection Class
+ * Handles PDO connection to MySQL database.
+ */
 class Database
 {
     private $host = 'fdb1032.awardspace.net';
